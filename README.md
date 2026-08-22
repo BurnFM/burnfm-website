@@ -1,7 +1,7 @@
 # Burn FM - _recoded_
 
 > [!IMPORTANT]
-> Live Branch
+> Live Branch - Live to burnfm.com
 
 #### Burn FM's website: [burnfm.com](https://burnfm.com), recoded with Next.js since 2024
 
