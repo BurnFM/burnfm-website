@@ -119,7 +119,7 @@ export type Profile = {
   role: string,
   course: string,
   description: string,
-  photo: string,
+  photo: string | null,
   song: string,
   fact: string,
   year: number
