@@ -1,7 +1,7 @@
 # Burn FM - _recoded_
 
 > [!Important]
-> Development Brach
+> Development Brach - NOT live to burnfm.com
 
 #### Burn FM's website: [burnfm.com](https://burnfm.com), recoded with Next.js since 2024
 
