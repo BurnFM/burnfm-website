@@ -1,4 +1,8 @@
 # BurnFM - _recoded_
+
+> [!Important]
+> Static backup version - needed if moving away from vercel
+
 <img width="1184" alt="Screenshot 2024-01-22 at 06 11 24" src="https://github.com/ChrisDev18/burnfm-recoded/assets/95181085/8c24c2b7-5f00-4682-8528-1871792acbbc">
 
 ## Project structure
