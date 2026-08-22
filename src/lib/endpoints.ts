@@ -1,5 +1,5 @@
 export const COMMITTEE_ENDPOINT = "https://api.burnfm.com/committee"
-export const SCHEDULE_ENDPOINT = "https://api.burnfm.com/new/schedule/get_collated_development?ignore_off_air=true"
+export const SCHEDULE_ENDPOINT = "https://api.burnfm.com/new/schedule/get_collated?ignore_off_air=true"
 export const NOW_PLAYING_ENDPOINT = (limit: number = 0) => "https://api.burnfm.com/new/schedule/get_collated?include_default=true&limit_shows=" + limit;
 
 export const GET_RADIOSHOW_ENDPOINT = (id?: number) => {

@@ -1,14 +1,4 @@
 import {
-  API_ScheduleItem,
-  API_ShowExtended, IPodcast, IShow,
-  IShowExtended, Profile,
-  Schedule_API,
-  Settings_API,
-  ShowEvent,
-  ShowSchedule
-} from "@/lib/types";
-import {
-  COMMITTEE_ENDPOINT,
   COMMITTEE_FILES_ENDPOINT,
   GET_PODCAST_ENDPOINT,
   GET_RADIOSHOW_ENDPOINT,
@@ -16,19 +6,29 @@ import {
   SCHEDULE_ENDPOINT,
   SETTINGS_ENDPOINT
 } from "@/lib/endpoints";
-import axios from "axios";
-import {cache} from "react";
-
+import {
+  API_ScheduleItem,
+  API_ShowExtended,
+  IPodcast,
+  IShow,
+  IShowExtended,
+  Profile,
+  Schedule_API,
+  Settings_API,
+  ShowEvent,
+  ShowSchedule,
+} from "@/lib/types";
+import { cache } from "react";
 
 // Get the time offset in milliseconds
 function getTimeZoneOffset(date: Date, timeZone: string): number {
-  const localOffset = - date.getTimezoneOffset() / 60;  // Convert to hours
+  const localOffset = -date.getTimezoneOffset() / 60; // Convert to hours
 
   // Format to string given a string format of time-zone
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     timeZone,
     hour12: false,
-    timeZoneName: "short"
+    timeZoneName: "short",
   }).format(date);
 
   let serverOffset = 0;
@@ -60,19 +60,22 @@ function adjustToLocalTime(serverDate: Date, serverTimeZone: string): Date {
 }
 
 // Forms show object given a ScheduleItem from the API
-function formShowInSchedule(show: API_ScheduleItem, time_zone: string): ShowEvent {
+function formShowInSchedule(
+  show: API_ScheduleItem,
+  time_zone: string,
+): ShowEvent {
   let start = new Date();
   let end = new Date();
   const duration = new Date();
 
-  let [h, m, s] = show.start_time.split(':').map(Number);
+  let [h, m, s] = show.start_time.split(":").map(Number);
   start.setHours(h, m, s);
 
-  [h, m, s] = show.end_time.split(':').map(Number);
+  [h, m, s] = show.end_time.split(":").map(Number);
   end.setHours(h, m, s);
   end.setSeconds(end.getSeconds() + 1);
 
-  [h, m, s] = show.duration.split(':').map(Number);
+  [h, m, s] = show.duration.split(":").map(Number);
   duration.setHours(h, m, s);
   duration.setSeconds(duration.getSeconds() + 1);
 
@@ -84,26 +87,33 @@ function formShowInSchedule(show: API_ScheduleItem, time_zone: string): ShowEven
     day: show.day,
     title: show.title,
     description: show.description ?? "",
-    photo: show.photo ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo : "",
+    photo: show.photo
+      ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+      : "",
     duration: duration,
     start_time: start,
     end_time: end,
-    hosts: show.hosts
+    hosts: show.hosts,
   };
 }
 
-function formShowObject(show: API_ShowExtended, time_zone: string): IShowExtended {
+function formShowObject(
+  show: API_ShowExtended,
+  time_zone: string,
+): IShowExtended {
   return {
     ...show,
-    photo: show.photo ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo : null,
-    timings: show.timings.map(timing => {
+    photo: show.photo
+      ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+      : null,
+    timings: show.timings.map((timing) => {
       let start = new Date();
       let end = new Date();
 
-      let [h, m, s] = timing.start_time.split(':').map(Number);
+      let [h, m, s] = timing.start_time.split(":").map(Number);
       start.setHours(h, m, s);
 
-      [h, m, s] = timing.end_time.split(':').map(Number);
+      [h, m, s] = timing.end_time.split(":").map(Number);
       end.setHours(h, m, s);
       end.setSeconds(end.getSeconds() + 1);
 
@@ -116,26 +126,30 @@ function formShowObject(show: API_ShowExtended, time_zone: string): IShowExtende
         day: timing.day,
         start_date: timing.start_date ? new Date(timing.start_date) : null,
         end_date: timing.end_date ? new Date(timing.end_date) : null,
-      }
+      };
     }),
-    recordings: show.recordings.map(rec => ({
+    recordings: show.recordings.map((rec) => ({
       ...rec,
       recording: "https://api.burnfm.com/" + rec.recording,
-      recorded_at: new Date(rec.recorded_at)
-    }))
-  }
+      recorded_at: new Date(rec.recorded_at),
+    })),
+  };
 }
 
 export async function getCommittees() {
   try {
-    const res = await fetchClient<{ time_zone: string; data: Profile[] }>(COMMITTEE_FILES_ENDPOINT, { next: { revalidate: 3600 } });
-    const profiles = res.data.map(profile => ({
+    const res = await fetchClient<{ time_zone: string; data: Profile[] }>(
+      COMMITTEE_FILES_ENDPOINT,
+      { next: { revalidate: 3600 } },
+    );
+    const profiles = res.data.map((profile) => ({
       ...profile,
-      photo: profile.photo ? "https://api.burnfm.com/uploads/committee_img/" + profile.photo : null,
+      photo: profile.photo
+        ? "https://api.burnfm.com/uploads/committee_img/" + profile.photo
+        : null,
     }));
 
-    return profiles
-
+    return profiles;
   } catch (error: any) {
     throw error;
   }
@@ -156,80 +170,100 @@ export async function getSchedule(day?: number): Promise<ShowEvent[]> {
     endpoint = SCHEDULE_ENDPOINT;
   }
 
-  const json = await fetchClient<Schedule_API>(endpoint, { next: { revalidate: 3600 } });
+  const json = await fetchClient<Schedule_API>(endpoint, {
+    next: { revalidate: 3600 },
+  });
 
   return json.data
-      .map(scheduleItem => formShowInSchedule(scheduleItem, json.time_zone))
-      .toSorted((a, b) => a.start_time.getTime() < b.start_time.getTime() ? -1 : 1);
+    .map((scheduleItem) => formShowInSchedule(scheduleItem, json.time_zone))
+    .toSorted((a, b) =>
+      a.start_time.getTime() < b.start_time.getTime() ? -1 : 1,
+    );
 }
 
 // Returns the current_show as well as a list of next_shows.
 export async function getNowPlaying(): Promise<ShowSchedule> {
   let json = await fetchClient<Schedule_API>(NOW_PLAYING_ENDPOINT(4));
 
-  const shows = json.data.map(show => formShowInSchedule(show, json.time_zone));
+  const shows = json.data.map((show) =>
+    formShowInSchedule(show, json.time_zone),
+  );
 
   return {
     current_show: shows.shift() ?? null,
-    next_shows: shows
+    next_shows: shows,
   };
 }
 
 // Retrieve a show from the API.
-export const getShow = cache(async (id: number): Promise<IShowExtended | null> => {
-  try {
-    const res = await fetchClient<{ time_zone: string; data: API_ShowExtended }>(GET_RADIOSHOW_ENDPOINT(id), { next: { revalidate: 3600 } });
-    return formShowObject(res.data, res.time_zone);
-  } catch (error: any) {
-    if (error.response.status === 404) {
-      return null;
-    }
+export const getShow = cache(
+  async (id: number): Promise<IShowExtended | null> => {
+    try {
+      const res = await fetchClient<{
+        time_zone: string;
+        data: API_ShowExtended;
+      }>(GET_RADIOSHOW_ENDPOINT(id), { next: { revalidate: 3600 } });
+      return formShowObject(res.data, res.time_zone);
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        return null;
+      }
 
-    throw error;
-  }
-})
+      throw error;
+    }
+  },
+);
 
 // Retrieve a podcast from the API.
-export const getPodcast = cache(async (id: number): Promise<IPodcast | null> => {
-  try {
-    const res = await fetchClient<{ time_zone: string; data: IPodcast }>(GET_PODCAST_ENDPOINT(id), { next: { revalidate: 3600 } });
-    return res.data;
-  } catch (error: any) {
-    if (error.response.status === 404) {
-      return null;
+export const getPodcast = cache(
+  async (id: number): Promise<IPodcast | null> => {
+    try {
+      const res = await fetchClient<{ time_zone: string; data: IPodcast }>(
+        GET_PODCAST_ENDPOINT(id),
+        { next: { revalidate: 3600 } },
+      );
+      return res.data;
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        return null;
+      }
+      throw error;
     }
-    throw error;
-  }
-})
+  },
+);
 
 // Retrieve all shows from the API.
 export async function getAllShows(filters?: string[]) {
   try {
-    const res = await fetchClient<{ time_zone: string; data: IShow[] }>(GET_RADIOSHOW_ENDPOINT(), { next: { revalidate: 3600 } });
-    const shows = res.data.map(show => ({
+    const res = await fetchClient<{ time_zone: string; data: IShow[] }>(
+      GET_RADIOSHOW_ENDPOINT(),
+      { next: { revalidate: 3600 } },
+    );
+    const shows = res.data.map((show) => ({
       ...show,
-      photo: show.photo ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo : null,
+      photo: show.photo
+        ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+        : null,
     }));
 
     // Define the predicates to apply
-    const predicates: ((show: IShow) => boolean)[] = []
+    const predicates: ((show: IShow) => boolean)[] = [];
     if (filters) {
       if (filters.includes("committee")) {
-        predicates.push((show: IShow) => show.hosts.includes("Burn FM"))
+        predicates.push((show: IShow) => show.hosts.includes("Burn FM"));
       }
 
-      if(filters.includes("archive")){
+      if (filters.includes("archive")) {
         const schedule = await getSchedule();
-        const currentShowsID = new Set(schedule.map(show => show.id));
-        predicates.push((show: IShow) => !currentShowsID.has(show.id))
+        const currentShowsID = new Set(schedule.map((show) => show.id));
+        predicates.push((show: IShow) => !currentShowsID.has(show.id));
       }
     }
 
     // Apply each predicate for each show in list
-    return shows.filter(show =>
-        predicates.every(predicate => predicate(show))
+    return shows.filter((show) =>
+      predicates.every((predicate) => predicate(show)),
     );
-
   } catch (error: any) {
     throw error;
   }
@@ -238,25 +272,31 @@ export async function getAllShows(filters?: string[]) {
 // Retrieve all podcasts from the API.
 export async function getAllPodcasts(filters?: string[]) {
   try {
-    const res = await fetchClient<{ time_zone: string; data: IPodcast[] }>(GET_PODCAST_ENDPOINT(), { next: { revalidate: 3600 } });
-    const podcasts = res.data.map(podcast => ({
+    const res = await fetchClient<{ time_zone: string; data: IPodcast[] }>(
+      GET_PODCAST_ENDPOINT(),
+      { next: { revalidate: 3600 } },
+    );
+    const podcasts = res.data.map((podcast) => ({
       ...podcast,
-      photo: podcast.photo ? "https://api.burnfm.com/uploads/schedule_img/" + podcast.photo : null,
+      photo: podcast.photo
+        ? "https://api.burnfm.com/uploads/podcast_img/" + podcast.photo
+        : null,
     }));
 
     // Define the predicates to apply
-    const predicates: ((podcast: IPodcast) => boolean)[] = []
+    const predicates: ((podcast: IPodcast) => boolean)[] = [];
     if (filters) {
       if (filters.includes("committee")) {
-        predicates.push((podcast: IPodcast) => podcast.hosts.includes("Burn FM"))
+        predicates.push((podcast: IPodcast) =>
+          podcast.hosts.includes("Burn FM"),
+        );
       }
     }
 
     // Apply each predicate for each show in list
-    return podcasts.filter(podcast =>
-        predicates.every(predicate => predicate(podcast))
+    return podcasts.filter((podcast) =>
+      predicates.every((predicate) => predicate(podcast)),
     );
-
   } catch (error: any) {
     throw error;
   }
@@ -266,7 +306,10 @@ interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
 }
 
-export async function fetchClient<T>(url: string, options?: FetchOptions): Promise<T> {
+export async function fetchClient<T>(
+  url: string,
+  options?: FetchOptions,
+): Promise<T> {
   try {
     const response = await fetch(url, {
       ...options,
@@ -279,7 +322,7 @@ export async function fetchClient<T>(url: string, options?: FetchOptions): Promi
       // Parse error response
       const errorMessage = await response.text();
       throw new Error(
-          `Error: ${response.status} - ${response.statusText} - ${errorMessage}`
+        `Error: ${response.status} - ${response.statusText} - ${errorMessage}`,
       );
     }
 
@@ -291,7 +334,7 @@ export async function fetchClient<T>(url: string, options?: FetchOptions): Promi
     return {} as T; // Return empty object for no content
   } catch (error: any) {
     // Handle network or parsing errors
-    console.log(error)
-    throw new Error(error.message || 'An unexpected error occurred');
+    console.log(error);
+    throw new Error(error.message || "An unexpected error occurred");
   }
 }
