@@ -1,7 +1,7 @@
 import Motion from "@/components/motion";
 import { getAllPodcasts, getAllShows, getSchedule } from "@/lib/api";
 import { IPodcast, IShow } from "@/lib/types";
-import { ChevronRightIcon, RadioIcon } from "lucide-react";
+import { ChevronRightIcon, PodcastIcon, RadioIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -90,7 +90,11 @@ export default async function Page({
                   "bg-purple w-auto h-full aspect-square flex items-center justify-center max-sm:[mask-image:linear-gradient(to_right,rgba(0,0,0,0),70%,rgba(0,0,0,1))]"
                 }
               >
-                <RadioIcon size={40} className={"text-white"} />
+                {show.type === "radio" ? (
+                  <RadioIcon size={40} className={"text-white"} />
+                ) : (
+                  <PodcastIcon size={40} className={"text-white"} />
+                )}
               </div>
             )}
 
