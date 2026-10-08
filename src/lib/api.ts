@@ -1,5 +1,5 @@
 import {
-  COMMITTEE_FILES_ENDPOINT,
+  COMMITTEE_ENDPOINT,
   GET_PODCAST_ENDPOINT,
   GET_RADIOSHOW_ENDPOINT,
   NOW_PLAYING_ENDPOINT,
@@ -139,7 +139,7 @@ function formShowObject(
 export async function getCommittees() {
   try {
     const res = await fetchClient<{ time_zone: string; data: Profile[] }>(
-      COMMITTEE_FILES_ENDPOINT,
+      COMMITTEE_ENDPOINT,
       { next: { revalidate: 3600 } },
     );
     const profiles = res.data.map((profile) => ({
