@@ -49,6 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   params: { filter: ["archive", "radio"] },
                 },
               ]}
+              search={true}
             />
           </HScroll>
         </Suspense>

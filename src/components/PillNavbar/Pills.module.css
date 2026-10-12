@@ -69,3 +69,54 @@
     color: rgb(var(--purple-rgb));
     /*padding: 4px 24px;*/
 }
+
+
+.pill_input {
+    display: block;
+    text-decoration: none;
+    border-radius: 50px;
+    outline: 1px solid rgb(255,255,255, 0.9);
+    background: #5d1f74;
+
+    cursor: pointer;
+    /*background-color: rgba(var(--background-rgb), 0.5);*/
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+    text-wrap: nowrap;
+
+    text-transform: capitalize;
+    color: white;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: color, font-size, padding 100ms ease, background-color 100ms ease;
+    padding: 4px 16px;
+    padding-left: 35px;
+}
+
+.pill_input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.pill_input_filled{
+    background-color: rgb(255,255,255, 0.9);
+    color: rgb(var(--purple-rgb));
+}
+
+.searchIconWrapper{
+    position: relative;
+}
+
+.searchIcon{
+    position: absolute;
+    left: 12px;
+    transform: translateY(35%);
+    pointer-events: none;
+    z-index: 1;
+    color: white;
+}
+
+.searchIcon_filled{
+    color: rgb(var(--purple-rgb));
+}
