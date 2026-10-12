@@ -22,17 +22,23 @@ export const revalidate = 7200;
 
 export default async function Page({
   searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  let { filter } = await searchParams;
+  }: {
+    searchParams: Promise<{
+      [key: string]: string | string[] | undefined;
+    }>;
+  }) {
+  const { filter, search } = await searchParams;
+
+  // Search takes priority over filters
+  const searchQuery = typeof search === "string" ? search.trim() : "";
 
   let new_filter: string[] | undefined;
 
-  if (filter) {
-    if (typeof filter === "string") filter = [filter];
-
-    new_filter = filter.filter((item) => acceptableFilters.includes(item));
+  if (!searchQuery && filter) {
+    const filters = Array.isArray(filter) ? filter : [filter];
+    new_filter = filters.filter((item) =>
+      acceptableFilters.includes(item)
+    );
   }
 
   type DisplayItem = (IShow & { type: string }) | (IPodcast & { type: string });
@@ -57,6 +63,22 @@ export default async function Page({
   }
 
   display.sort((a, b) => a.title.localeCompare(b.title));
+
+  if (searchQuery) {
+  const query = searchQuery.toLowerCase();
+
+  display = display.filter((item) => {
+    const searchableText = [
+      item.title,
+      ...(item.hosts ?? []),
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return searchableText.includes(query);
+  });
+}
 
   return (
     <Motion

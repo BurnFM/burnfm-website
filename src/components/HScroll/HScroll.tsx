@@ -16,11 +16,13 @@ export default function HScroll({
   const [contentRefState, setContentRefState] =
       useState<HTMLDivElement|null>(null);
 
+  const scrollSlack = 1;
+
   const handleScroll = useCallback(() => {
     const visibilities = [false, false];
     if (contentRefState?.scrollLeft) {
       visibilities[0] = contentRefState.scrollLeft > 1;
-      visibilities[1] = contentRefState.scrollLeft < (contentRefState.scrollWidth-contentRefState.clientWidth);
+      visibilities[1] = contentRefState.scrollLeft < (contentRefState.scrollWidth-contentRefState.clientWidth-scrollSlack);
     } else if (contentRefState){
       visibilities[0] = false;
       visibilities[1] = contentRefState.scrollWidth > contentRefState.clientWidth;
