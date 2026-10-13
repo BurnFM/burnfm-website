@@ -1,19 +1,22 @@
-export const SCHEDULE_ENDPOINT = "https://api.burnfm.com/new/schedule/get_collated?ignore_off_air=true"
-export const NOW_PLAYING_ENDPOINT = (limit: number = 0) => "https://api.burnfm.com/new/schedule/get_collated?include_default=true&limit_shows=" + limit;
+export const SCHEDULE_ENDPOINT =
+  "https://api.burnfm.com/schedule/get_collated?ignore_off_air=true";
+export const NOW_PLAYING_ENDPOINT = (limit: number = 0) =>
+  "https://api.burnfm.com/schedule/get_collated?include_default=true&limit_shows=" +
+  limit;
 
 export const GET_RADIOSHOW_ENDPOINT = (id?: number) => {
   if (id)
-    return "https://api.burnfm.com/new/radio_show/get?include_timings=true&include_recordings=true&id=" + id;
-  else
-    return "https://api.burnfm.com/new/radio_show/get";
-}
+    return (
+      "https://api.burnfm.com/radio_show/get?include_timings=true&include_recordings=true&id=" +
+      id
+    );
+  else return "https://api.burnfm.com/radio_show/get";
+};
 
 export const GET_PODCAST_ENDPOINT = (id?: number) => {
-  if (id)
-    return "https://api.burnfm.com/new/podcast/get?id=" + id;
-  else
-    return "https://api.burnfm.com/new/podcast/get";
-}
+  if (id) return "https://api.burnfm.com/podcast/get?id=" + id;
+  else return "https://api.burnfm.com/podcast/get";
+};
 
-export const SETTINGS_ENDPOINT = "https://api.burnfm.com/new/settings/get"
-export const COMMITTEE_ENDPOINT = "https://api.burnfm.com/new/committee/get"
+export const SETTINGS_ENDPOINT = "https://api.burnfm.com/settings/get";
+export const COMMITTEE_ENDPOINT = "https://api.burnfm.com/committee/get";

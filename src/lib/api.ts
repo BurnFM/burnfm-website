@@ -4,7 +4,7 @@ import {
   GET_RADIOSHOW_ENDPOINT,
   NOW_PLAYING_ENDPOINT,
   SCHEDULE_ENDPOINT,
-  SETTINGS_ENDPOINT
+  SETTINGS_ENDPOINT,
 } from "@/lib/endpoints";
 import {
   API_ScheduleItem,

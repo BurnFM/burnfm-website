@@ -1,19 +1,21 @@
-import React from "react";
-import {notFound} from "next/navigation";
-import {getSchedule} from "@/lib/api";
-import {Metadata} from "next";
 import styles from "@/app/schedule/schedule.module.css";
 import ScheduleItem from "@/components/ScheduleItem/ScheduleItem";
 import Motion from "@/components/motion";
-
+import { getSchedule } from "@/lib/api";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Schedule - Burn FM',
-}
+  title: "Schedule - Burn FM",
+};
 
 export const revalidate = 7200;
 
-export default async function Page({ params }: { params: Promise<{ day: string }> }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ day: string }>;
+}) {
   const { day } = await params;
 
   const day_n = parseInt(day);
@@ -25,30 +27,31 @@ export default async function Page({ params }: { params: Promise<{ day: string }
 
   if (schedule.length === 0) {
     return (
-        <Motion type={'div'}
-                className={styles.content}
-                transition={{duration: 0.2, type: "tween", delay: 0.2}}
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}>
-          <div className="flex flex-col items-center justify-center gap-2 grow">
-            <p className={styles.emptyMessage}>Nothing scheduled on this day</p>
-          </div>
-        </Motion>
-
+      <Motion
+        type={"div"}
+        className={styles.content}
+        transition={{ duration: 0.2, type: "tween", delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="flex flex-col items-center justify-center gap-2 grow">
+          <p className={styles.emptyMessage}>Nothing scheduled on this day</p>
+        </div>
+      </Motion>
     );
   }
 
   return (
-      <Motion type={'div'}
-              className={styles.ScheduleList}
-              transition={{duration: 0.2, type: "tween", delay: 0.2}}
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}>
-        {
-          schedule.map((show, i) =>
-              <ScheduleItem key={i} show={show}/>
-          )
-        }
-      </Motion>
+    <Motion
+      type={"div"}
+      className={styles.ScheduleList}
+      transition={{ duration: 0.2, type: "tween", delay: 0.2 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      {schedule.map((show, i) => (
+        <ScheduleItem key={i} show={show} />
+      ))}
+    </Motion>
   );
 }
