@@ -1,16 +1,16 @@
 export type Schedule_API = {
-  data: API_ScheduleItem[],
-  time_zone: string,
-}
+  data: API_ScheduleItem[];
+  time_zone: string;
+};
 
 export type Settings_API = {
   defaultShow: {
-    show: number
-  },
+    show: number;
+  };
   offAirMode: {
-    show: number
-  }
-}
+    show: number;
+  };
+};
 
 // export type Now_Playing_API = {
 //   now_playing: API_ScheduleItem[],
@@ -18,119 +18,121 @@ export type Settings_API = {
 // }
 
 export type API_ScheduleItem = {
-  show_id: number,
-  day: number,
-  start_time: string,
-  end_time: string,
-  duration: string,
-  title: string,
-  description: string | null,
-  photo: string | null,
-  hosts: string[]
-}
+  show_id: number;
+  day: number;
+  start_time: string;
+  end_time: string;
+  duration: string;
+  title: string;
+  description: string | null;
+  tagline: string | null;
+  photo: string | null;
+  hosts: string[];
+};
 
 export type IShow = {
-  id: number,
-  title: string,
-  description: string | null,
-  hosts: string[],
-  photo: string | null,
-}
+  id: number;
+  title: string;
+  description: string | null;
+  tagline: string | null;
+  hosts: string[];
+  photo: string | null;
+};
 
 export type IPodcast = {
-  id: number,
-  title: string,
-  description: string | null,
-  hosts: string[],
-  photo: string | null,
-  startDate: string,
-  endDate: string,
-  latestShow: string,
-}
+  id: number;
+  title: string;
+  description: string | null;
+  hosts: string[];
+  photo: string | null;
+  startDate: string;
+  endDate: string;
+  latestShow: string;
+};
 
 export type ShowEvent = {
-  id: number,
-  title: string,
-  description: string,
-  photo: string | null,
-  hosts: string[],
+  id: number;
+  title: string;
+  description: string;
+  tagline: string;
+  photo: string | null;
+  hosts: string[];
 
-  day: number,
-  duration: Date,
-  start_time: Date,
-  end_time: Date,
-}
+  day: number;
+  duration: Date;
+  start_time: Date;
+  end_time: Date;
+};
 
 export type IRecording = {
-  id: number,
-  title: string | null,
-  recording: string,
-  recorded_at: Date
-}
+  id: number;
+  title: string | null;
+  recording: string;
+  recorded_at: Date;
+};
 
 export type IShowExtended = IShow & {
-  recordings: IRecording[],
+  recordings: IRecording[];
   timings: {
-    start_time: Date,
-    end_time: Date,
-    day: number,
-    start_date: Date | null,
-    end_date: Date | null
-  } []
-}
+    start_time: Date;
+    end_time: Date;
+    day: number;
+    start_date: Date | null;
+    end_date: Date | null;
+  }[];
+};
 
 export type API_ShowExtended = IShow & {
   recordings: {
-    id: number,
-    title: string | null,
-    recording: string,
-    recorded_at: string
-  } [],
+    id: number;
+    title: string | null;
+    recording: string;
+    recorded_at: string;
+  }[];
   timings: {
-    start_time: string,
-    end_time: string,
-    day: number,
-    start_date: string | null,
-    end_date: string | null
-  } []
-}
-
+    start_time: string;
+    end_time: string;
+    day: number;
+    start_date: string | null;
+    end_date: string | null;
+  }[];
+};
 
 export type Recording = {
-  id: number,
-  show_id: number,
-  recording: string,
-  recorded_at: Date
-}
+  id: number;
+  show_id: number;
+  recording: string;
+  recorded_at: Date;
+};
 
 export type ShowSchedule = {
-  current_show: ShowEvent | null,
-  next_shows: ShowEvent[]
-}
+  current_show: ShowEvent | null;
+  next_shows: ShowEvent[];
+};
 
 export type PopupState = {
-  visible: boolean,
-  show: ShowEvent,
-}
+  visible: boolean;
+  show: ShowEvent;
+};
 
 export type Profile = {
-  id: number,
-  name: string,
-  role: string,
-  course: string,
-  description: string,
-  photo: string | null,
-  song: string,
-  fact: string,
-  year: number
-}
+  id: number;
+  name: string;
+  role: string;
+  course: string;
+  description: string;
+  photo: string | null;
+  song: string;
+  fact: string;
+  year: number;
+};
 
 export const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
 ] as const;
