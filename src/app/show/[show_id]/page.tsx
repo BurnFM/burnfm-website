@@ -66,6 +66,7 @@ export default async function Page({
         )}
 
         <h1 className={`notranslate ${styles.title}`}>{show.title}</h1>
+        {show.tagline && <p className={styles.tagline}>{show.tagline}</p>}
         {show.hosts && (
           <h3 className={styles.sectionHeader}>
             Presented by{" "}

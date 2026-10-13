@@ -87,6 +87,7 @@ function formShowInSchedule(
     day: show.day,
     title: show.title,
     description: show.description ?? "",
+    tagline: show.tagline ?? "",
     photo: show.photo
       ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
       : "",
@@ -171,7 +172,7 @@ export async function getSchedule(day?: number): Promise<ShowEvent[]> {
   }
 
   const json = await fetchClient<Schedule_API>(endpoint, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 1 },
   });
 
   return json.data
@@ -202,7 +203,7 @@ export const getShow = cache(
       const res = await fetchClient<{
         time_zone: string;
         data: API_ShowExtended;
-      }>(GET_RADIOSHOW_ENDPOINT(id), { next: { revalidate: 3600 } });
+      }>(GET_RADIOSHOW_ENDPOINT(id), { next: { revalidate: 1 } });
       return formShowObject(res.data, res.time_zone);
     } catch (error: any) {
       if (error.response.status === 404) {
@@ -237,7 +238,7 @@ export async function getAllShows(filters?: string[]) {
   try {
     const res = await fetchClient<{ time_zone: string; data: IShow[] }>(
       GET_RADIOSHOW_ENDPOINT(),
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 1 } },
     );
     const shows = res.data.map((show) => ({
       ...show,
