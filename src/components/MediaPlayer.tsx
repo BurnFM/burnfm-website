@@ -59,23 +59,28 @@ export default function MediaPlayer() {
 
     // update().then();  // Not necessary for Media Player since initial song is given
 
-    // Calculate the time until the next hour starts
     const now = new Date();
-    const msUntilNextHalfHour = (30 - (now.getMinutes() % 30)) * 60 * 1000;
 
-    // Set the initial timeout to sync with the next half-hour mark
+    // Calculate milliseconds until the next half-hour mark
+    const msUntilNextHalfHour = (30 - (now.getMinutes() % 30)) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+
+    let interval: ReturnType<typeof setInterval> | undefined;
+
+    // Wait until the next half-hour mark
     const timeout = setTimeout(() => {
-      update().then();
+      update();
 
-      // Set the interval to update every 30 minutes thereafter
-      const interval = setInterval(update, 30 * 60 * 1000);
-
-      // Clear the interval when the component unmounts
-      return () => clearInterval(interval);
+      // Continue updating every 30 minutes
+      interval = setInterval(update, 30 * 60 * 1000);
     }, msUntilNextHalfHour);
 
-    // Clear the timeout when the component unmounts
-    return () => clearTimeout(timeout);
+    // Clean up both timers when the component unmounts
+    return () => {
+      clearTimeout(timeout);
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   // Sync MediaContext with OS's player UI

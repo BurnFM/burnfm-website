@@ -10,7 +10,7 @@ import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
 import {CalendarIcon, UsersIcon, PodcastIcon} from "lucide-react";
-import NewRadioPlayer from "@/components/RadioPlayer/NewRadioPlayer";
+import RadioPlayer from "@/components/RadioPlayer/RadioPlayer";
 import {InstagramEmbed} from "react-social-media-embed";
 
 
@@ -26,7 +26,7 @@ export default function Home() {
                 transition={{ duration: 0.2, type: "tween", delay: 0.2}}
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}>
-      <NewRadioPlayer/>
+      <RadioPlayer/>
 
       <div className={styles.Cards}>
         {/*<div className={styles.CardWrapper}>*/}
