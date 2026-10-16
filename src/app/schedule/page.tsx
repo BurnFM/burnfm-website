@@ -48,7 +48,7 @@ export default async function Page({
           <ScheduleItem key={i} show={show} showDay={true}/>
         ))
       ) : (
-        <p>No shows found matching "{searchQuery}".</p>
+        <div></div>
       )}
     </Motion>
   );

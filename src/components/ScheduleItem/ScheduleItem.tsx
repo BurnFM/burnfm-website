@@ -9,7 +9,7 @@ import { ChevronRightIcon, RadioIcon } from "lucide-react";
 // An item shown in ScheduleList.
 export default function ScheduleItem({
     show,
-    showDay
+    showDay = false
   }: { 
     show: ShowEvent;
     showDay?: boolean
