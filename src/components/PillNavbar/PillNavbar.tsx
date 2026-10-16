@@ -12,11 +12,11 @@ import {SearchIcon} from "lucide-react";
 export default function PillNavbar({
   data,
   className,
-  search
+  searchPage
 }: {
   data: { link: string; text: string; params?: ParsedUrlQueryInput }[],
-  className?: string
-  search?: boolean
+  className?: string,
+  searchPage?: string,
 }) {
   const path = usePathname();
   const params = useSearchParams();
@@ -48,7 +48,7 @@ export default function PillNavbar({
     const query = searchQuery.trim();
     if (!query) return;
     const timeout = setTimeout(() => {
-      router.push(`/shows?search=${encodeURIComponent(query)}`);
+      router.push(`/${searchPage}?search=${encodeURIComponent(query)}`);
     }, 750);
     return () => clearTimeout(timeout);
   }, [searchQuery, router]);
@@ -89,7 +89,7 @@ export default function PillNavbar({
         <ul className={styles.pillsContainer}>
           {links}
 
-          {search && (
+          {searchPage && (
             <li key="search">
               <div className={styles.searchIconWrapper}>
                 <SearchIcon size={20} className={`${styles.searchIcon} ${searchQuery.trim() ? styles.searchIcon_filled : ""}`}/>
@@ -103,7 +103,7 @@ export default function PillNavbar({
                   setSearchQuery(value);
 
                   if (!value.trim() && params.has("search")) {
-                    router.push("/shows");
+                    router.push(`/${searchPage}`);
                   }
                 }}
                 aria-label="Search"
