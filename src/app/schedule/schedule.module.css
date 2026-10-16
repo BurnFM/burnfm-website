@@ -13,9 +13,10 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  padding: 24px 64px;
+  padding: 12px 32px;
+  margin: 24px 64px;
+  margin-top: 64px !important;
   background-color: rgb(var(--purple-rgb));
-  position: sticky;
   top: 0; /* required */;
   z-index: 1;
 
@@ -30,7 +31,6 @@
 
 .header {
   color: white;
-  margin-bottom: 16px;
 }
 
 .content {

@@ -112,7 +112,7 @@ export default function NavBar() {
         <nav
             id="header"
             className={`flex justify-between max-md:justify-center items-center px-8 py-2 md:px-16 lg:px-24 
-        backdrop-blur-3xl ${isAlt ? "bg-purple text-white" : "bg-white/60 dark:bg-black/60"}`}
+        backdrop-blur-3xl `}
         >
           { isOpen &&
             <Sidebar links={navLinks} path={path} />
@@ -127,9 +127,7 @@ export default function NavBar() {
                 id="image"
                 width={logoSize === "big" ? 100 : 64}
                 height={logoSize === "big" ? 100 : 64}
-                className={`transition-all duration-300 ${
-                    isAlt ? "text-white" : "text-alt-purple dark:text-white"
-                }`}
+                className={`transition-all duration-300`}
             />
           </Link>
 
@@ -145,14 +143,8 @@ export default function NavBar() {
                   focus-visible:outline-2 focus-visible:outline-alt-purple focus-visible:outline-offset-4
                   ${
                             selected ? 
-                                isAlt ? 
-                                    "border-b-2 border-white text-white active:border-b-0" 
-                                : 
                                     "border-b-2 border-alt-purple text-alt-purple active:border-b-0"
                             : 
-                                isAlt ?
-                                    "text-white hover:border-b-4 hover:border-white active:border-b-0" 
-                                : 
                                     "text-foreground hover:text-alt-purple hover:border-b-4 hover:border-alt-purple active:border-b-0"
                         }`}
                     >

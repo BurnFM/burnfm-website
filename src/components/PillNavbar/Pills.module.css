@@ -21,7 +21,6 @@
 .pill {
     display: block;
     text-decoration: none;
-    border-radius: 50px;
     outline: 1px solid rgb(255,255,255, 0.9);
     background: #5d1f74;
 
@@ -74,7 +73,6 @@
 .pill_input {
     display: block;
     text-decoration: none;
-    border-radius: 50px;
     outline: 1px solid rgb(255,255,255, 0.9);
     background: #5d1f74;
 

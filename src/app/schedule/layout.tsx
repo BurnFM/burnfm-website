@@ -13,6 +13,9 @@ export default function Layout({children}: {children: React.ReactNode}) {
             animate={{opacity: 1}}>
         <div className={styles.headerSection}>
           <h1 className={styles.header}>Show Schedule</h1>
+          <p className={"text-white mb-4"}>
+            Browse all our current shows and see when to tune in.
+          </p>
           <Suspense>
             <HScroll color={"rgba(93, 31, 116)"} className={"-m-1"}>
               <PillNavbar
