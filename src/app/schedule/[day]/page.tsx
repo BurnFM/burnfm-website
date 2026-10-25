@@ -4,7 +4,6 @@ import Motion from "@/components/motion";
 import { getSchedule } from "@/lib/api";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Schedule - Burn FM",
@@ -13,43 +12,46 @@ export const metadata: Metadata = {
 export const revalidate = 7200;
 
 export default async function Page({
-  searchParams,
+  params,
 }: {
-  searchParams: Promise<{ search?: string }>;
+  params: Promise<{ day: string }>;
 }) {
-  const { search } = await searchParams;
+  const { day } = await params;
 
-  if (!search || (Array.isArray(search) ? !search.some(s => s.trim()) : !search.trim())) {
-    redirect("/schedule/1");
+  const day_n = parseInt(day);
+  if (isNaN(day_n) || day_n < 0 || day_n > 6) return notFound();
+
+  const schedule = await getSchedule(day_n);
+
+  if (!schedule) return notFound();
+
+  if (schedule.length === 0) {
+    return (
+      <Motion
+        type={"div"}
+        className={styles.content}
+        transition={{ duration: 0.2, type: "tween", delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="flex flex-col items-center justify-center gap-2 grow">
+          <p className={styles.emptyMessage}>Nothing scheduled on this day</p>
+        </div>
+      </Motion>
+    );
   }
-
-  const searchQuery = (Array.isArray(search) ? search[0] : search).trim().toLowerCase();
-  const shows = await getSchedule();
-
-  const results = shows.filter((show) =>
-    [
-      show.title,
-      ...(Array.isArray(show.hosts) ? show.hosts : []),
-    ]
-      .filter(Boolean)
-      .some((value) => value.toLowerCase().includes(searchQuery))
-  );
 
   return (
     <Motion
-      type="div"
+      type={"div"}
       className={styles.ScheduleList}
       transition={{ duration: 0.2, type: "tween", delay: 0.2 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {results.length > 0 ? (
-        results.map((show, i) => (
-          <ScheduleItem key={i} show={show} showDay={true}/>
-        ))
-      ) : (
-        <p>No shows found matching "{searchQuery}".</p>
-      )}
+      {schedule.map((show, i) => (
+        <ScheduleItem key={i} show={show} />
+      ))}
     </Motion>
   );
 }
