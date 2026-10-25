@@ -89,7 +89,7 @@ function formShowInSchedule(
     description: show.description ?? "",
     tagline: show.tagline ?? "",
     photo: show.photo
-      ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+      ? "https://api.burnfm.com/uploads/show_img/" + show.photo
       : "",
     duration: duration,
     start_time: start,
@@ -105,7 +105,7 @@ function formShowObject(
   return {
     ...show,
     photo: show.photo
-      ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+      ? "https://api.burnfm.com/uploads/show_img/" + show.photo
       : null,
     timings: show.timings.map((timing) => {
       let start = new Date();
@@ -243,7 +243,7 @@ export async function getAllShows(filters?: string[]) {
     const shows = res.data.map((show) => ({
       ...show,
       photo: show.photo
-        ? "https://api.burnfm.com/uploads/schedule_img/" + show.photo
+        ? "https://api.burnfm.com/uploads/show_img/" + show.photo
         : null,
     }));
 
