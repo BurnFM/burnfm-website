@@ -7,11 +7,29 @@ import { ShowEvent } from "@/lib/types";
 import { ChevronRightIcon, RadioIcon } from "lucide-react";
 
 // An item shown in ScheduleList.
-export default function ScheduleItem({ show }: { show: ShowEvent }) {
+export default function ScheduleItem({
+    show,
+    showDay
+  }: { 
+    show: ShowEvent;
+    showDay?: boolean
+  }) {    
   const duration = Math.round(
     (show.end_time.getTime() - show.start_time.getTime()) / (1000 * 60 * 60),
   );
   const timeString = `${show.start_time.toLocaleTimeString(["en"], { hour: "2-digit", minute: "2-digit" })} - ${show.end_time.toLocaleTimeString(["en"], { hour: "2-digit", minute: "2-digit" })}`;
+
+  const dayNames = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  const dayName = dayNames[show.day - 1] ?? show.day;
 
   return (
     <Link
@@ -36,7 +54,7 @@ export default function ScheduleItem({ show }: { show: ShowEvent }) {
       <div className="relative flex flex-grow items-center gap-4 p-4 sm:pr-9 overflow-x-hidden overflow-y-clip">
         <div className="flex flex-col flex-grow gap-1 w-4/5">
           <p className="text-base font-medium text-foreground/70">
-            {timeString}
+            {showDay !== false && `${dayName}: `}{timeString}
           </p>
 
           <div className="flex flex-col justify-center gap-1 w-full">
