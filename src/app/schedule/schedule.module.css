@@ -61,3 +61,11 @@
     padding: 32px 256px;
   }
 }
+
+
+.dayHeader{
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-xl);
+  line-height: var(--tw-leading, var(--text-xl--line-height));
+  margin-bottom: -20px;
+}
