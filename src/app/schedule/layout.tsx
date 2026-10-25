@@ -26,6 +26,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
                     { link: "/schedule/6", text: "Saturday" },
                     { link: "/schedule/0", text: "Sunday" }
                   ]}
+                  searchPage="schedule"
               />
             </HScroll>
           </Suspense>
