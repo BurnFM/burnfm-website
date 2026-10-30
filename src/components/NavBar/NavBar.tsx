@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import BurnLogo from "@/components/BurnLogo";
+import BurnLogoHalloween from "@/components/BurnLogoHalloween";
 import { Pivot as Hamburger } from 'hamburger-react';
 import {
   CalendarIcon, Headphones,
@@ -123,7 +123,7 @@ export default function NavBar() {
               aria-label="Burn FM Homepage"
               className="notranslate focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
           >
-            <BurnLogo
+            <BurnLogoHalloween
                 id="image"
                 width={logoSize === "big" ? 100 : 64}
                 height={logoSize === "big" ? 100 : 64}
