@@ -42,6 +42,13 @@ export default async function Page({
   const show = await getShow(id);
 
   if (!show) return notFound();
+  const today = new Date();
+
+  const currentTiming = show.timings.find((timing) => {
+    const matchesStartDate = timing.start_date !== null && today >= new Date(timing.start_date);
+    const matchesEndDate = timing.end_date !== null && today <= new Date(timing.end_date);
+    return matchesStartDate && matchesEndDate;
+  });
 
   return (
     <Motion
@@ -91,6 +98,20 @@ export default async function Page({
       </div>
 
       <div className={styles.onDemand}>
+
+        {currentTiming ? (
+          <div>
+            <h2>Currently running</h2>
+            <p>
+              {today.toLocaleDateString("en-GB", {weekday: "long"})}
+              {" "}
+              {currentTiming.start_time.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit",})}
+              {" - "}
+              {currentTiming.end_time.toLocaleTimeString("en-GB", {hour: "2-digit",minute: "2-digit",})}
+            </p>
+          </div>
+        ) : null}
+
         <h2>On demand</h2>
         <p>Listen back to previous episodes, recorded every hour</p>
 
