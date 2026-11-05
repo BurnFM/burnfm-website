@@ -103,7 +103,7 @@ export default async function Page({
           <div>
             <h2>Currently running</h2>
             <p>
-              {today.toLocaleDateString("en-GB", {weekday: "long"})}
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][currentTiming.day - 1]}
               {" "}
               {currentTiming.start_time.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit",})}
               {" - "}
